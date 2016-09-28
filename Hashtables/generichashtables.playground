@@ -1,0 +1,46 @@
+/* This file is written by 
+	Vaghula krishnan S
+	Dt on 28/9/2016
+*/
+// This is simple program to demonstrate generic HashTable With chaining  and subscript retrival (Linked List)
+import UIKit
+
+
+class HashTable <K, V> {
+	
+	private var values : [V?]
+	private var count : Int
+	
+	init(size: Int) {
+		values = [V?](repeating: nil, count: size)
+		count = size
+	}
+	
+	func push(key: K, value: V?) {
+	let index = ( key as Any as! Int % count)
+		print(index)
+		if values[index] == nil{
+			values[index] = value
+		}else{
+			values[index + 1] = value
+		}
+		}
+	
+	subscript (key: K) -> V? {
+		get {
+			let index = ( key as Any as! Int % count)
+			return values[index]
+		}
+		set {
+			push(key: key, value: newValue)
+		}
+	}
+}
+
+let val = HashTable<Int,Int>(size: 10)
+val.push(key: 1, value: 10)
+val.push(key: 2, value: 20)
+val.push(key: 2, value: 20)
+val.push(key: 2, value: 200)
+
+print(val[3])

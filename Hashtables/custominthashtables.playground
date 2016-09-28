@@ -1,0 +1,66 @@
+/* This file is written by 
+	Vaghula krishnan S
+	Dt on 28/9/2016
+*/
+// This is simple program to demonstrate Custom HashTable (Int Type) With chaining  and subscript retrival (Linked List)
+import UIKit
+
+class HashNodeval {
+	var value: Int!
+	var next: HashNodeval!
+}
+
+class HashTable {
+	private var buckets: Array<HashNodeval?> //initialize the buckets with nil values
+	private var count : Int
+
+	init(capacity: Int) {
+		self.buckets = Array<HashNodeval!>(repeating:nil, count: capacity)
+		count = capacity
+	}
+	
+	private func createHash(value: Int) -> Int! {
+		let index = (value % count)
+		return index
+	}
+	func push(value: Int)
+	{
+		var hashindex: Int!
+		hashindex = self.createHash(value: value)
+		let childToUse: HashNodeval = HashNodeval()
+		var head: HashNodeval!
+		childToUse.value = value
+		if (buckets[hashindex] == nil) {
+			buckets[hashindex] = childToUse
+		}
+		else {
+			print("a collision occured. implementing chaining..")
+			head = buckets[hashindex] //append new item to the head of the list
+			childToUse.next = head
+			head = childToUse //update the chained list
+			buckets[hashindex] = head
+		}
+		
+	}
+	subscript (key: Int) -> [Int]? {
+		get {
+			let index = (key % count)
+			var returnarray = [Int]()
+			var bucket = buckets[index]
+			returnarray.append((bucket?.value)!)
+			while(bucket?.next != nil){
+				bucket = bucket?.next
+				returnarray.append((bucket?.value)!)
+			}
+			return returnarray
+		}
+	}
+}
+
+let val = HashTable(capacity: 10)
+val.push(value: 1)
+val.push(value: 11)
+val.push(value: 2)
+
+val[2]
+
